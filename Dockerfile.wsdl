@@ -1,0 +1,6 @@
+FROM java:8-jdk-alpine
+COPY ./wsdl/*jar app.jar
+RUN mkdir wsdl
+COPY ./wsdl/tenderservice.wsdl wsdl
+COPY ./wsdl/tenderservice_schema1.xsd wsdl
+ENTRYPOINT ["java", "-jar", "app.jar"]

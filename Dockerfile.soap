@@ -1,0 +1,12 @@
+FROM java:8-jdk-alpine
+
+COPY ./soap/*.jar /usr/app.jar
+
+volume /tmp/soaplog *.log
+ 
+RUN sh -c 'touch app.jar'
+
+ENTRYPOINT ["java","-jar","/usr/app.jar"]
+
+Expose 9090
+

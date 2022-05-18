@@ -1,0 +1,44 @@
+<xs:schema xmlns:tns="http://service.thbs.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://service.thbs.com/" version="1.0">
+
+  <xs:element name="tenderProcessor" type="tns:tenderProcessor"/>
+
+  <xs:element name="tenderProcessorResponse" type="tns:tenderProcessorResponse"/>
+
+  <xs:complexType name="tenderProcessor">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="request" type="tns:tenderServiceRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tenderServiceRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="tender" type="tns:tender"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tender">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="businessKey" type="xs:int"/>
+      <xs:element minOccurs="0" name="messageId" type="xs:int"/>
+      <xs:element minOccurs="0" name="projectName" type="xs:string"/>
+      <xs:element minOccurs="0" name="tenderId" type="xs:int"/>
+      <xs:element minOccurs="0" name="tenderapplieddate" type="xs:string"/>
+      <xs:element minOccurs="0" name="tenderappliedtime" type="xs:string"/>
+      <xs:element minOccurs="0" name="tendercost" type="xs:float"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tenderProcessorResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="response" type="tns:tenderServiceResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tenderServiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="status" type="xs:string"/>
+      <xs:element minOccurs="0" name="tender" type="tns:tender"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

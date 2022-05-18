@@ -1,0 +1,13 @@
+FROM confluentinc/cp-kafka-connect-base:6.1.0
+
+COPY ./kafka-connect/*.jar /etc/kafka-connect/jars/
+
+COPY ./kafka-connect-connector/* /usr/share/java
+
+ENV CONNECT_PLUGIN_PATH="/usr/share/java,/usr/share/confluent-hub-components"
+
+ENV CONNECT_ACCESS_CONROL_ALLOW_ORIGIN: '*'
+
+ENV CONNECT_ACCESS_CONTROL_ALLOW_METHODS: 'GET,POST,PUT,DELETE,OPTIONS,HEAD'
+
+RUN confluent-hub install --no-prompt confluentinc/kafka-connect-http:latest

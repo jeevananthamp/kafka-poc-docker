@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "c09ee3ef-f689-4fd1-ac8e-dd2393508766",
+		"name": "Ksql",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ksqldb-request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.ksql.v1+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ksql\": \"SELECT * FROM TENDER_COUNT where PROJECTNAME='pathologyandgenetics-2';\",\r\n    \"streamsProperties\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://65.1.123.135:8088/query",
+					"protocol": "http",
+					"host": [
+						"65",
+						"1",
+						"123",
+						"135"
+					],
+					"port": "8088",
+					"path": [
+						"query"
+					]
+				},
+				"description": "ksql db"
+			},
+			"response": []
+		},
+		{
+			"name": "Connector-config",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n\"name\": \"KafkaHttpSinkConnector\",\r\n\"config\": {\r\n\"connector.class\": \"nz.ac.auckland.kafka.http.sink.HttpSinkConnector\",\r\n\"key.converter\":\"org.apache.kafka.connect.storage.StringConverter\",\r\n\"bootstrap.servers\":\"19092,29092,39092\",\r\n\"value.converter\":\"org.apache.kafka.connect.storage.StringConverter\",\r\n\"tasks.max\": \"1\",\r\n\"topics\": \"tenderTopic\",\r\n\"callback.request.url\":\"http://boot-service-app:8080/storexml\",\r\n\"callback.request.method\":\"POST\",\r\n\"callback.request.headers\":\"content-Type:application/xml\",\r\n\"max.retries\":3,\r\n\"retry.backoff.sec.seperator\":\"|\",\r\n\"retry.backoff.sec\":\"5,60,120,300,600\",\r\n\"exception.strategy\":\"PROGRESS_BACK_OFF_DROP_MESSAGE\",\r\n\"callback.timeout.read.ms\":\"60000\",\r\n\"callback.timeout.connect.ms\":\"1000\",\r\n\"retry\":\"true\",\r\n\"flush.size\": \"100\",\r\n\"rotate.interval.ms\": \"1000\"\r\n}\r\n}\r\n\r\n\r\n\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://65.1.123.135:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"65",
+						"1",
+						"123",
+						"135"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post tenderTopic",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.kafka.json.v2+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"records\": [\r\n        {\r\n            \"key\":15646789,\r\n            \"value\": {\r\n                \"businessKey\": 11441,\r\n                \"messageId\": 236,\r\n                \"tenderId\": \"15646789\",\r\n                \"tenderapplieddate\": \"Sun Mar 07 2021\",\r\n                \"tenderappliedtime\": \"21:12:20\",\r\n                \"projectName\": \"pathologyandgenetics-2\",\r\n                \"tendercost\": 1000.00\r\n            }\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://65.1.123.135:8082/topics/tenderTopic",
+					"protocol": "http",
+					"host": [
+						"65",
+						"1",
+						"123",
+						"135"
+					],
+					"port": "8082",
+					"path": [
+						"topics",
+						"tenderTopic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tendercost ",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://65.1.123.135:7010/getAggregate/tendercost/2000",
+					"protocol": "http",
+					"host": [
+						"65",
+						"1",
+						"123",
+						"135"
+					],
+					"port": "7010",
+					"path": [
+						"getAggregate",
+						"tendercost",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get tenderId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://65.1.123.135:7010/getTenderAggregates/tenderid/1000105",
+					"protocol": "http",
+					"host": [
+						"65",
+						"1",
+						"123",
+						"135"
+					],
+					"port": "7010",
+					"path": [
+						"getTenderAggregates",
+						"tenderid",
+						"1000105"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Bussinesskey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://65.1.123.135:7010/getTenderAggregates/businesskey/1141",
+					"protocol": "http",
+					"host": [
+						"65",
+						"1",
+						"123",
+						"135"
+					],
+					"port": "7010",
+					"path": [
+						"getTenderAggregates",
+						"businesskey",
+						"1141"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

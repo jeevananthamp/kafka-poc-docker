@@ -1,0 +1,7 @@
+CREATE DATABASE xmlstore; USE xmlstore; CREATE TABLE xmlrecord (
+  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  content VARCHAR(5000) NOT NULL
+);
+
+
+
